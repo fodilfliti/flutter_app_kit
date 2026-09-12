@@ -1,0 +1,15 @@
+---
+description: Session rules for flutter_app_kit
+alwaysApply: true
+---
+
+# flutter_app_kit
+
+- Public API is `lib/flutter_app_kit.dart` only.
+- Path-depend on sibling `lemsa_core_kit` and `flutter_page_kit`.
+- No hard deps on dio, supabase_flutter, or firebase_*. Vendor init is a callback.
+- `Notices` lives in page_kit (D16). This kit ships `MaterialNotices` only.
+- Tokens go in `SecureSessionStore`. Never passwords in SharedPreferences.
+- Sign-out calls `deleteUserData()` and does **not** navigate.
+- Use `fvm flutter` (pin 3.35.7). Never upgrade the shared SDK.
+- Do not start `flutter_nav_kit` unless asked.

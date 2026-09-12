@@ -1,0 +1,13 @@
+# flutter_app_kit
+
+Bootstrap, flavors, secure session storage, Material Notices.
+
+- Public barrel: lib/flutter_app_kit.dart
+- bootstrap(AppConfig) is phased, idempotent, testable
+- Env: flutter_dotenv wrapper (not envied)
+- Flavor: AppFlavor via --dart-define=FLAVOR=
+- SecureSessionStore for tokens; never passwords in SharedPreferences
+- deleteUserData() wipes secure storage + prefs allowlist + optional DB hook; no navigation
+- MaterialNotices implements page_kit Notices; showFailure skips null and CancelledFailure
+- Vendor SDKs are optional callbacks (initFirebase / initSupabase), not package deps
+- FVM Flutter 3.35.7
