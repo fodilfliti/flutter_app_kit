@@ -3,7 +3,6 @@ description: >
   App bootstrap, flavors, secure session storage, and Material Notices
   for Lemsa Flutter apps.
 version: 1.0.0
-publish_to: none
 homepage: https://github.com/fodilfliti/flutter_app_kit
 repository: https://github.com/fodilfliti/flutter_app_kit
 issue_tracker: https://github.com/fodilfliti/flutter_app_kit/issues
@@ -17,11 +16,9 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_dotenv: ^6.0.1
-  flutter_page_kit:
-    path: ../flutter_page_kit
+  flutter_page_kit: ^1.0.0
   flutter_secure_storage: ^11.0.0
-  lemsa_core_kit:
-    path: ../lemsa_core_kit
+  lemsa_core_kit: ^1.0.0
   shared_preferences: ^2.5.5
 
 dev_dependencies:
