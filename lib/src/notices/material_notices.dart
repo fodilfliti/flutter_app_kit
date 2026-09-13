@@ -9,14 +9,18 @@ import 'package:lemsa_core_kit/lemsa_core_kit.dart';
 ///
 /// Kits never localize. Inject `failureText` from the app (slang switch).
 final class MaterialNotices implements Notices {
+  // Public names (messengerKey/failureText) — avoid `this._x` initializing
+  // formals so older IDE analyzers and call sites stay aligned.
   MaterialNotices({
     required GlobalKey<ScaffoldMessengerState> messengerKey,
     required String Function(AppFailure) failureText,
-  }) : _messengerKey = messengerKey,
-       _failureText = failureText;
+  }) {
+    _messengerKey = messengerKey;
+    _failureText = failureText;
+  }
 
-  final GlobalKey<ScaffoldMessengerState> _messengerKey;
-  final String Function(AppFailure) _failureText;
+  late final GlobalKey<ScaffoldMessengerState> _messengerKey;
+  late final String Function(AppFailure) _failureText;
 
   void _show(String message, {Color? background}) {
     if (message.isEmpty) {

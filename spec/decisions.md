@@ -46,8 +46,8 @@
 
 **Do not:** Navigate from `deleteUserData`. The router reacts to session (nav_kit).
 
-## D7 — flutter_secure_storage 10.x on Flutter 3.35.7
+## D7 — flutter_secure_storage 11.x on Flutter ≥ 3.44
 
-**Choice:** Depend on `flutter_secure_storage` `^10.3.3`, not 11.
+**Choice:** Depend on `flutter_secure_storage` `^11.0.0`.
 
-**Why:** 11.x pulls `win32` ^6 which needs Dart `>=3.10`. FVM pin 3.35.7 ships Dart 3.9.2. Default `FlutterSecureStorage()` (v10 RSA OAEP + AES-GCM) is enough; we do not use deprecated `encryptedSharedPreferences`.
+**Why:** Floor table target. Flutter ≥ 3.44 (Dart ≥ 3.12) clears the older win32 / Dart 3.10 blocker that kept us on 10.x under the 3.35.7 pin. Default `FlutterSecureStorage()` is enough; we do not use deprecated `encryptedSharedPreferences`.
