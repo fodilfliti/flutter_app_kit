@@ -2,14 +2,16 @@
 name: flutter-app-kit
 description: >
   Use flutter_app_kit for bootstrap(), AppFlavor, SecureSessionStore,
-  deleteUserData, MaterialNotices, and wiring FlutterError to AppReporter.
-  Activate for main.dart init, .env / flavors, secure tokens, sign-out wipe,
-  and ScaffoldMessenger snackbars — not for PageData, auto_route, AuthGuard,
+  deleteUserData, MaterialNotices, dialogs/bottom sheets, requireSignIn, and
+  wiring FlutterError to AppReporter. Activate for main.dart init, .env /
+  flavors, secure tokens, sign-out wipe, ScaffoldMessenger snackbars,
+  responsive dialogs, and "log in to continue" prompts — not for PageData,
+  auto_route, AuthGuard,
   Dio mappers, or Firebase/Supabase SDKs inside this package.
 license: MIT
 metadata:
   author: fodilfliti
-  version: "0.0.1"
+  version: "1.1.0"
   homepage: https://pub.dev/packages/flutter_app_kit
 ---
 
@@ -28,6 +30,45 @@ Use this package for:
 - Tokens in `SecureSessionStore` (never SharedPreferences)
 - `deleteUserData()` on sign-out (no navigation)
 - `MaterialNotices` (production `Notices` impl)
+- Dialogs / sheets: `showAppDialog`, `showAppFullScreenDialog`,
+  `showAppBottomSheet`, `showConfirmDialog` (or `AppDialogs(navigatorKey:)`
+  from controllers)
+- `requireSignIn` — "log in to continue" before an action
+
+## Dialogs and sheets
+
+- Use the kit helpers instead of raw `showDialog` / `showModalBottomSheet`
+  so width is capped on tablet/web and height never exceeds 90% of screen.
+- All strings are app-supplied (slang). Close tooltip comes from
+  `MaterialLocalizations`.
+- From a controller (no `BuildContext`), inject `AppDialogs` bound to the
+  root navigator key (`router.navigatorKey` with auto_route). **Never** keep
+  a global `BuildContext` (reference-app anti-pattern).
+- `showConfirmDialog` returns `bool` (dismiss = `false`); `destructive: true`
+  paints the confirm button with `colorScheme.error`.
+
+## Sign-in prompt (actions)
+
+Routes are protected by nav_kit `AuthGuard`. For an **action** on a public
+screen (favorite, book, comment):
+
+```dart
+if (!await requireSignIn(
+  context,
+  isSignedIn: () => ref.read(sessionProvider).isSignedIn,
+  openSignIn: () => context.router.push(const LoginRoute()),
+  texts: SignInPromptTexts(
+    title: t.auth.title,
+    message: t.auth.loginToContinue,
+    signInLabel: t.auth.signIn,
+    cancelLabel: t.common.cancel,
+  ),
+)) return;
+await controller.book();
+```
+
+`openSignIn` should complete when the login flow closes; the helper then
+re-checks `isSignedIn` so the action continues right after signing in.
 
 ## Bootstrap phases
 
